@@ -26,6 +26,7 @@
     "lodash": "^4.17.4",
     "mongoose": "^4.11.1",
     "nodemon": "^1.11.0",
+    "openpgp": "^2.6.2",
     "passport": "^0.3.2",
     "passport-google-oauth20": "^1.0.0",
     "path-parser": "^2.0.2",
