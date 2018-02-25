@@ -25,7 +25,7 @@ module.exports = survey => {
   </html>
 `;
 
-  var options;
+  var options, encryptedContents;
   var myKey = {};
 
   myKey.pubkey = keys.testPubKey;
@@ -35,10 +35,8 @@ module.exports = survey => {
     publicKeys: openpgp.key.readArmored(myKey.pubkey).keys
   };
 
-  openpgp.encrypt(options).then(function(ciphertext) {
-    myKey.encrypted = ciphertext.data;
-    console.log(myKey.encrypted);
+  openpgp.encrypt(options).then(async ciphertext => {
+    encryptedContents = await ciphertext.data;
+    console.log(encryptedContents);
   });
-
-  return myKey.encrypted;
 };
