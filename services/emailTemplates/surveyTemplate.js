@@ -7,10 +7,25 @@ openpgp.initWorker({
 openpgp.config.aead_protect = true;
 
 module.exports = survey => {
-  var fileContents = 'Hello world!!';
+  var fileContents = `
+  <html>
+    <body>
+      <div style="text-align: center;">
+        <h3>I'd like your input!</h3>
+        <p>Please answer the following question:</p>
+        <p>${survey.body}</p>
+        <div>
+          <a href="${keys.redirectDomain}/api/surveys/${survey.id}/yes">Yes</a>
+        </div>
+        <div>
+          <a href="${keys.redirectDomain}/api/surveys/${survey.id}/no">No</a>
+        </div>
+      </div>
+    </body>
+  </html>
+`;
 
   var options;
-  var encrypted;
   var myKey = {};
 
   myKey.pubkey = `-----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -54,6 +69,8 @@ module.exports = survey => {
 
   openpgp.encrypt(options).then(function(ciphertext) {
     myKey.encrypted = ciphertext.data;
-    console.log('Encrypted: ', myKey.encrypted);
+    console.log(myKey.encrypted);
   });
+
+  return myKey.encrypted;
 };
