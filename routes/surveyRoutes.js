@@ -70,13 +70,18 @@ module.exports = app => {
     const mailer = new Mailer(survey, surveyTemplate(survey));
 
     try {
+      console.log('try to send email here');
+      // FIX ME FIX ME FIX ME
+      //Print request of sendgrid and probe what the issue could be
       await mailer.send();
+      console.log('it send succesfully');
       await survey.save();
       req.user.credits -= 1;
       const user = await req.user.save();
 
       res.send(user);
     } catch (err) {
+      console.log(err);
       res.status(422).send(err);
     }
   });

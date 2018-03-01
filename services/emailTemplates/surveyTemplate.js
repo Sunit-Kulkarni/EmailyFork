@@ -13,23 +13,24 @@ myKey.pubkey = keys.testPubKey;
 
 module.exports = survey => {
   var fileContents = `
-  <html>
-    <body>
-      <div style="text-align: center;">
-        <h3>I'd like your input!</h3>
-        <p>Please answer the following question:</p>
-        <p>${survey.body}</p>
-        <div>
-          <a href="${keys.redirectDomain}/api/surveys/${survey.id}/yes">Yes</a>
+    <html>
+      <body>
+        <div style="text-align: center;">
+          <h3>I'd like your input!</h3>
+          <p>Please answer the following question:</p>
+          <p>${survey.body}</p>
+          <div>
+            <a href="${keys.redirectDomain}/api/surveys/${
+    survey.id
+  }/yes">Yes</a>
+          </div>
+          <div>
+            <a href="${keys.redirectDomain}/api/surveys/${survey.id}/no">No</a>
+          </div>
         </div>
-        <div>
-          <a href="${keys.redirectDomain}/api/surveys/${survey.id}/no">No</a>
-        </div>
-      </div>
-    </body>
-  </html>
-`;
-
+      </body>
+    </html>
+  `;
   options = {
     data: fileContents,
     publicKeys: openpgp.key.readArmored(myKey.pubkey).keys
@@ -38,10 +39,13 @@ module.exports = survey => {
   openpgp.encrypt(options).then(ciphertext => {
     encryptedContents = ciphertext.data;
     console.log(encryptedContents);
-    return encryptedContents;
   });
 
-  //   return `
+  return encryptedContents;
+
+  //original working email code
+
+  // return `
   //   <html>
   //     <body>
   //       <div style="text-align: center;">
@@ -49,7 +53,9 @@ module.exports = survey => {
   //         <p>Please answer the following question:</p>
   //         <p>${survey.body}</p>
   //         <div>
-  //           <a href="${keys.redirectDomain}/api/surveys/${survey.id}/yes">Yes</a>
+  //           <a href="${keys.redirectDomain}/api/surveys/${
+  //   survey.id
+  // }/yes">Yes</a>
   //         </div>
   //         <div>
   //           <a href="${keys.redirectDomain}/api/surveys/${survey.id}/no">No</a>
